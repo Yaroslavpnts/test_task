@@ -1,0 +1,41 @@
+@use '../../styles/variables' as v;
+@use '../../styles/mixins' as mixins;
+
+.introBlock {
+  width: 100%;
+  // don't understand layout, is the picture must be 100vh or no? if we вщ pixel perfect it shouldn't be...
+  // height: 100vh;
+  height: 650px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+
+  background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url('../../Assets/background-photo.jpeg');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+
+  .about {
+    width: 380px;
+    height: 323px;
+    text-align: center;
+
+    h1 {
+      margin-bottom: 21px;
+    }
+
+    p {
+      margin-bottom: 32px;
+    }
+
+    @include mixins.md {
+      max-width: 328px;
+    }
+  }
+
+  @media screen and (max-width: v.$screen-lg-max) {
+    height: 500px;
+  }
+}

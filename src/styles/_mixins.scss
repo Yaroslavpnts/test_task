@@ -1,0 +1,38 @@
+@use './variables' as v;
+
+// Small devices
+@mixin sm {
+  @media (max-width: v.$screen-sm-max) {
+    @content;
+  }
+}
+
+// Medium devices
+@mixin md {
+  @media (max-width: v.$screen-md-max) {
+    @content;
+  }
+}
+
+// Large devices
+@mixin lg {
+  @media (max-width: v.$screen-lg-max) {
+    @content;
+  }
+}
+
+@mixin helperText {
+  .helperText {
+    display: block;
+    position: absolute;
+    top: 58px;
+    left: 16px;
+    font-size: 12px;
+    line-height: 14px;
+    color: #7e7e7e;
+  }
+
+  .descriptionError {
+    color: v.$error-color;
+  }
+}

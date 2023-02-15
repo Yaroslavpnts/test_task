@@ -1,0 +1,27 @@
+@use '../../../styles/variables' as v;
+
+.tooltip {
+  position: relative;
+
+  .tooltipText {
+    padding: 3px 16px;
+    background: v.$main-color;
+    color: #fff;
+    border-radius: 4px;
+    display: none;
+    position: absolute;
+    top: 38px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    height: 30px;
+  }
+
+  .show {
+    display: block;
+  }
+}
+
+.tooltip :not(span :last-of-type) {
+  cursor: pointer;
+}

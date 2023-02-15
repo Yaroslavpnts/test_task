@@ -1,0 +1,39 @@
+@use '../../styles/variables' as v;
+$screen-sm-max: 360px;
+$screen-md-max: 768px;
+$screen-lg-max: 1024px;
+$screen-xl-max: 2560px;
+
+.headerContainer {
+  height: 60px;
+  padding: 12px 0;
+  width: 100%;
+  background-color: #fff;
+
+  // i don't know, maybe header should be fixed, for navigation?
+
+  // position: fixed;
+  // top: 0;
+  // left: 0;
+
+  .headerBlock {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+
+    @media screen and (max-width: 350px) {
+      img {
+        display: none;
+      }
+
+      justify-content: end;
+    }
+  }
+
+  .buttonsContainer {
+    display: flex;
+    gap: 10px;
+  }
+}

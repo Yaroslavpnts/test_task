@@ -1,0 +1,53 @@
+.customRadioBtn {
+  > div {
+    margin-bottom: 11px;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+
+    li {
+      input {
+        display: none;
+      }
+
+      label {
+        position: relative;
+        display: flex;
+        align-items: center;
+      }
+
+      label::before {
+        content: '';
+        display: inline-block;
+        margin-right: 12px;
+        width: 20px;
+        height: 20px;
+        border: 1px solid #00bdd3;
+        border-radius: 50%;
+      }
+
+      label::after {
+        content: '';
+        width: 10px;
+        height: 10px;
+        background-color: #00bdd3;
+        border-radius: 50%;
+        position: absolute;
+        left: 10px;
+        top: 13px;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+
+      input:checked + label::after {
+        opacity: 1;
+        left: 10px;
+        top: 13px;
+      }
+    }
+  }
+}

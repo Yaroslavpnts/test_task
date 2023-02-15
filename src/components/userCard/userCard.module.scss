@@ -1,0 +1,47 @@
+@use '../../styles/variables' as v;
+
+.userCardContainer {
+  padding: 20px;
+  background: #fff;
+
+  .userCard {
+    width: 330px;
+    height: 214px;
+    gap: 20px;
+    text-align: center;
+
+    img {
+      display: block;
+      border-radius: 50%;
+      flex-grow: 0;
+      margin: auto;
+      margin-bottom: 20px;
+    }
+
+    .userName {
+      margin-bottom: 20px;
+    }
+
+    p {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    @media screen and (max-width: 1200px) {
+      width: 242px;
+    }
+
+    @media screen and (max-width: v.$screen-md-max) {
+      width: 304px;
+    }
+
+    @media screen and (max-width: v.$screen-sm-max) {
+      width: 288px;
+    }
+  }
+
+  @media screen and (max-width: 350px) {
+    width: 100%;
+  }
+}

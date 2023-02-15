@@ -1,0 +1,26 @@
+@use '../../../styles/mixins.scss' as mixins;
+@use '../../../styles//variables.scss' as v;
+
+.container {
+  max-width: 1170px;
+  width: 100%;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @include mixins.lg {
+    max-width: v.$screen-lg-max;
+    padding: 0 60px;
+  }
+
+  @include mixins.md {
+    max-width: v.$screen-md-max;
+    padding: 0 32px;
+  }
+
+  @include mixins.sm {
+    max-width: v.$screen-sm-max;
+    padding: 0 16px;
+  }
+}
