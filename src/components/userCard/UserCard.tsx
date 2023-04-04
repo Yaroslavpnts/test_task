@@ -18,9 +18,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user }) => {
         <div>
           <p>{user.position}</p>
           <Tooltip refProp={ref} tooltipText={user.email}>
-            <p ref={ref} className={styles.hoverAble}>
-              {user.email}
-            </p>
+            <p ref={ref}>{user.email}</p>
           </Tooltip>
           <p>{user.phone}</p>
         </div>

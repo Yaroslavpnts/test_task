@@ -1,5 +1,3 @@
-import { E164Number } from 'libphonenumber-js/types';
-
 export const enum fetchStatus {
   Idle = 'idle',
   Pending = 'pending',
@@ -63,7 +61,7 @@ export interface IPositionsResponse {
 export interface IDefaultValuesRegistration {
   name: string;
   email: string;
-  phone: E164Number | undefined;
+  phone: string;
   position_id: string;
   photo: string | File;
 }

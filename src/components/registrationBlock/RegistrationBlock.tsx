@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../../api/apiMethods';
 import { useFormik } from 'formik';
-import { CustomInput } from '../UI/customInputs/CustomInput';
-import { CustomPhoneNumberInput } from '../UI/customInputs/CustomPhoneInput';
+// import { CustomInput } from '../UI/customInputs/CustomInput';
+// import { CustomPhoneNumberInput } from '../UI/customInputs/CustomPhoneInput';
+import PhoneInput from 'react-phone-input-2';
 import { CustomRadioBtn } from '../UI/customSelect/CustomRadioBtn';
 import styles from './registrationBlock.module.scss';
 import { IDefaultValuesRegistration, IPosition } from '../../models/types';
@@ -13,11 +14,13 @@ import { useAppDispatch } from '../../app/hooks';
 import { getUsersAsync } from '../../redux/usersSlice/usersSlice';
 import SuccessImg from '../../Assets/success-image.svg';
 import { Toast } from '../UI/cutomToast/Toast';
+import { CustomInput } from '../UI/customInput/CustomInput';
+import { isAxiosError } from 'axios';
 
 const initialValues: IDefaultValuesRegistration = {
   name: '',
   email: '',
-  phone: undefined,
+  phone: '',
   position_id: '',
   photo: '',
 };
@@ -29,22 +32,40 @@ export const RegistrationBlock: React.FC = () => {
   const [success, setSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
+  useEffect(() => {
+    if (success) {
+      window.scrollTo(0, document.body.scrollHeight);
+    }
+  }, [success]);
+
   const formik = useFormik({
     initialValues,
     validate,
     onSubmit: async (values, { resetForm }) => {
       try {
-        const { data } = await api.registrateUser(values);
+        const { data } = await api.signUpUser(values);
 
         resetForm();
 
         setSuccess(true);
-        window.scrollTo(0, document.body.scrollHeight);
-
         if (data.success) {
           dispatch(getUsersAsync({ page: 1, count: 6, onlyLast: true }));
         }
-      } catch (error) {}
+      } catch (error) {
+        if (isAxiosError(error)) {
+          const { response } = error as {
+            response: {
+              data: {
+                message: string;
+              };
+            };
+          };
+          setErrorMessage(response.data.message);
+        } else {
+          const { message } = error as { message: string };
+          setErrorMessage(message);
+        }
+      }
     },
   });
 
@@ -60,7 +81,7 @@ export const RegistrationBlock: React.FC = () => {
         formik.setFieldValue('position_id', positions[0].id.toString());
       } catch (error) {
         const { message } = error as { message: string };
-
+        console.log('error');
         setErrorMessage(message);
       }
     };
@@ -76,34 +97,35 @@ export const RegistrationBlock: React.FC = () => {
         <CustomInput
           name="name"
           value={formik.values.name}
-          onChange={formik.handleChange}
           label="Your name"
           errors={formik.errors}
           touched={formik.touched}
           onBlur={formik.handleBlur}
+          setFieldValue={formik.setFieldValue}
+          inputElement={<input />}
         />
         <CustomInput
           name="email"
           type="email"
           value={formik.values.email}
-          onChange={formik.handleChange}
           label="Email"
           errors={formik.errors}
           touched={formik.touched}
           onBlur={formik.handleBlur}
+          setFieldValue={formik.setFieldValue}
+          inputElement={<input />}
         />
-        <CustomPhoneNumberInput
+        <CustomInput
           name="phone"
           type="tel"
           value={formik.values.phone}
-          onChange={formik.handleChange}
           label="Phone"
           setFieldValue={formik.setFieldValue}
-          setErrors={formik.setErrors}
           errors={formik.errors}
           touched={formik.touched}
           onBlur={formik.handleBlur}
           helperText="+38 (XXX) XXX - XX - XX"
+          inputElement={<PhoneInput country="ua" specialLabel="" />}
         />
         <CustomRadioBtn label="Select your position">
           {positions.map(pos => (
@@ -133,11 +155,10 @@ export const RegistrationBlock: React.FC = () => {
         <CustomButton color={ButtonColors.GRAY} type="submit">
           Sign up
         </CustomButton>
-
-        <Toast open={!!errorMessage} error={!!errorMessage}>
-          {errorMessage}
-        </Toast>
       </form>
+      <Toast open={!!errorMessage} error={!!errorMessage} handleClose={() => setErrorMessage('')}>
+        {errorMessage}
+      </Toast>
       {success && (
         <div className={styles.successRegistration}>
           <h1>User successfully registered</h1>

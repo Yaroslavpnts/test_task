@@ -8,18 +8,9 @@ import {
 
 export const api = {
   fetchUsers(params: IQueryOptions) {
-    type ObjPropertyToString<T> = {
-      [p in keyof T]: string;
-    };
-
-    let obj = { ...params } as ObjPropertyToString<IQueryOptions>;
-
-    for (let key of Object.keys(obj)) {
-      obj[key as keyof typeof obj] = obj[key as keyof typeof obj]?.toString();
-    }
-
-    const query = new URLSearchParams(obj).toString();
-    return instance.get<IUsersPaginationResponse>(`/users?${query}`);
+    return instance.get<IUsersPaginationResponse>('/users', {
+      params,
+    });
   },
 
   getToken() {
@@ -30,13 +21,13 @@ export const api = {
     return instance.get<IPositionsResponse>('/positions');
   },
 
-  registrateUser(body: IDefaultValuesRegistration) {
+  signUpUser(body: IDefaultValuesRegistration) {
     type Keys = keyof typeof body;
     type Values = typeof body[Keys];
 
     const formData = new FormData();
 
-    let data = { ...body } as { [key in Keys]: Values };
+    let data = body as { [key in Keys]: Values };
 
     for (let key of Object.keys(body)) {
       formData.append(key, data[key as Keys] as string | Blob);

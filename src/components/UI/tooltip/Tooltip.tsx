@@ -10,11 +10,11 @@ interface TooltipProps {
 export const Tooltip: React.FC<TooltipProps> = ({ children, refProp, tooltipText }) => {
   const [isShow, setIsShow] = useState(false);
 
-  const handlerEnter = (e: MouseEvent) => {
+  const handlerEnter = (e: Event) => {
     setIsShow(true);
   };
 
-  const handlerLeave = (e: MouseEvent) => {
+  const handlerLeave = (e: Event) => {
     setIsShow(false);
   };
 

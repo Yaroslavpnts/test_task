@@ -3,7 +3,7 @@
 .customInput {
   position: relative;
 
-  > div {
+  > .inputField {
     position: relative;
     padding: 14px 16px;
     color: #d0cfcf;
@@ -11,18 +11,20 @@
     border-radius: 4px;
     height: 54px;
 
-    span {
-      pointer-events: none;
+    .label {
+      position: absolute;
+      left: 12px;
+      top: -8px;
+      font-size: 12px;
+      line-height: 14px;
+      padding: 0px 4px;
+      background-color: #f8f8f8;
+      display: none;
+
+      // transition: 0.2s left, top ease;
     }
 
     span:nth-child(1) {
-      position: absolute;
-      left: 16px;
-      top: 14px;
-      padding: 0px 4px;
-      background-color: #f8f8f8;
-
-      transition: 0.2s left, top ease;
     }
 
     input {
