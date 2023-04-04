@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '../../api/apiMethods';
 import { useFormik } from 'formik';
-// import { CustomInput } from '../UI/customInputs/CustomInput';
-// import { CustomPhoneNumberInput } from '../UI/customInputs/CustomPhoneInput';
 import PhoneInput from 'react-phone-input-2';
 import { CustomRadioBtn } from '../UI/customSelect/CustomRadioBtn';
 import styles from './registrationBlock.module.scss';
@@ -15,7 +13,7 @@ import { getUsersAsync } from '../../redux/usersSlice/usersSlice';
 import SuccessImg from '../../Assets/success-image.svg';
 import { Toast } from '../UI/cutomToast/Toast';
 import { CustomInput } from '../UI/customInput/CustomInput';
-import { isAxiosError } from 'axios';
+import { setError } from '../../utils/helperFucntions';
 
 const initialValues: IDefaultValuesRegistration = {
   name: '',
@@ -43,6 +41,7 @@ export const RegistrationBlock: React.FC = () => {
     validate,
     onSubmit: async (values, { resetForm }) => {
       try {
+        setSuccess(false);
         const { data } = await api.signUpUser(values);
 
         resetForm();
@@ -52,19 +51,7 @@ export const RegistrationBlock: React.FC = () => {
           dispatch(getUsersAsync({ page: 1, count: 6, onlyLast: true }));
         }
       } catch (error) {
-        if (isAxiosError(error)) {
-          const { response } = error as {
-            response: {
-              data: {
-                message: string;
-              };
-            };
-          };
-          setErrorMessage(response.data.message);
-        } else {
-          const { message } = error as { message: string };
-          setErrorMessage(message);
-        }
+        setError(error, setErrorMessage);
       }
     },
   });
@@ -80,9 +67,7 @@ export const RegistrationBlock: React.FC = () => {
 
         formik.setFieldValue('position_id', positions[0].id.toString());
       } catch (error) {
-        const { message } = error as { message: string };
-        console.log('error');
-        setErrorMessage(message);
+        setError(error, setErrorMessage);
       }
     };
 

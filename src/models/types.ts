@@ -5,11 +5,6 @@ export const enum fetchStatus {
   Success = 'success',
 }
 
-export interface IErrorResponse {
-  success: string;
-  message: string;
-}
-
 export interface IQueryOptions {
   page?: number;
   offset?: number;

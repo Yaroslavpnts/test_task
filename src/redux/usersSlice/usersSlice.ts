@@ -3,11 +3,20 @@ import { api } from '../../api/apiMethods';
 import { RootState, AppDispatch } from '../../app/store';
 import {
   fetchStatus,
-  IErrorResponse,
   IDispatchUsersOption,
   IUserResponse,
   IReturnTypeFetchUsersThunk,
 } from '../../models/types';
+import { isAxiosError } from 'axios';
+
+const validateError = (error: unknown) => {
+  if (isAxiosError(error)) {
+    return error.message;
+  } else {
+    const { message } = error as { message: string };
+    return message;
+  }
+};
 
 export interface UsersInitialState {
   status: fetchStatus;
@@ -40,8 +49,7 @@ export const getUsersAsync = createAsyncThunk<
 
       return { ...data, onlyLast };
     } catch (error) {
-      const { message } = error as IErrorResponse;
-      return rejectWithValue(message);
+      return rejectWithValue(validateError(error));
     }
   } else {
     try {
@@ -49,8 +57,7 @@ export const getUsersAsync = createAsyncThunk<
 
       return { ...data, onlyLast };
     } catch (error) {
-      const { message } = error as IErrorResponse;
-      return rejectWithValue(message);
+      return rejectWithValue(validateError(error));
     }
   }
 });
